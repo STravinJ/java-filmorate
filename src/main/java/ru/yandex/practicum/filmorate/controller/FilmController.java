@@ -28,8 +28,7 @@ public class FilmController {
     @PostMapping
     public Film create(@RequestBody Film film) {
 
-        Validator validator = new Validator();
-        validator.filmValidation(film, films);
+        Validator.filmValidation(film, films);
 
         film.setId(++idUser);
         films.put(film.getId(), film);
@@ -41,8 +40,7 @@ public class FilmController {
     @PutMapping
     public Film put(@RequestBody Film film) {
 
-        Validator validator = new Validator();
-        validator.filmValidation(film, films);
+        Validator.filmValidation(film, films);
 
         films.remove(film.getId());
         films.put(film.getId(), film);

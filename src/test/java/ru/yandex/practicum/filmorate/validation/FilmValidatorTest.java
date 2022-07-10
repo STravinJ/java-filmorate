@@ -13,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class FilmValidatorTest {
 
-    Validator validator = new Validator();
     Map<Integer, Film> films = new HashMap<>();
 
     @Test
@@ -32,7 +31,7 @@ public class FilmValidatorTest {
                     @Override
                     public void execute() throws Throwable {
 
-                        validator.filmValidation(film, films);
+                        Validator.filmValidation(film, films);
 
                     }
                 }
@@ -58,7 +57,7 @@ public class FilmValidatorTest {
                     @Override
                     public void execute() throws Throwable {
 
-                        validator.filmValidation(film, films);
+                        Validator.filmValidation(film, films);
 
                     }
                 }
@@ -82,7 +81,7 @@ public class FilmValidatorTest {
                     @Override
                     public void execute() throws Throwable {
 
-                        validator.filmValidation(film, films);
+                        Validator.filmValidation(film, films);
 
                     }
                 }
@@ -106,7 +105,7 @@ public class FilmValidatorTest {
                     @Override
                     public void execute() throws Throwable {
 
-                        validator.filmValidation(film, films);
+                        Validator.filmValidation(film, films);
 
                     }
                 }
@@ -131,7 +130,7 @@ public class FilmValidatorTest {
                     @Override
                     public void execute() throws Throwable {
 
-                        validator.filmValidation(film, films);
+                        Validator.filmValidation(film, films);
 
                     }
                 }

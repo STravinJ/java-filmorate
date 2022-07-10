@@ -28,8 +28,7 @@ public class UserController {
     @PostMapping
     public User create(@RequestBody User user) {
 
-        Validator validator = new Validator();
-        validator.userValidation(user, users);
+        Validator.userValidation(user, users);
 
         user.setId(++idUser);
         users.put(user.getId(), user);
@@ -41,8 +40,7 @@ public class UserController {
     @PutMapping
     public User put(@RequestBody User user) {
 
-        Validator validator = new Validator();
-        validator.userValidation(user, users);
+        Validator.userValidation(user, users);
 
         users.remove(user.getId());
         users.put(user.getId(), user);

@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class Validator {
 
-    public void filmValidation(Film film, Map<Integer, Film> films) {
+    public static void filmValidation(Film film, Map<Integer, Film> films) {
 
         if (film.getName().equals("")) {
             throw new ValidationException("Название фильма не может быть пустым.");
@@ -33,7 +33,7 @@ public class Validator {
 
     }
 
-    public void userValidation(User user, Map<Integer, User> users) {
+    public static void userValidation(User user, Map<Integer, User> users) {
 
         if (user.getEmail() == null || user.getEmail().isBlank()) {
             throw new ValidationException("Адрес электронной почты не может быть пустым.");
