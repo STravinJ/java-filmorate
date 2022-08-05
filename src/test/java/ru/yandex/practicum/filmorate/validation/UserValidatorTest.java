@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.validation;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import ru.yandex.practicum.filmorate.exception.NoModelException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 
@@ -15,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class UserValidatorTest {
 
     Validator validator = new Validator();
-    Map<Integer, User> users = new HashMap<>();
+    Map<Long, User> users = new HashMap<>();
 
     @Test
     public void userBadEmailTest() throws Exception {
@@ -137,11 +138,11 @@ public class UserValidatorTest {
                 .login("")
                 .email("test@test.ru")
                 .birthday(LocalDate.parse("1895-12-28"))
-                .id(1)
+                .id(1L)
                 .build();
 
-        final ValidationException exception = assertThrows(
-                ValidationException.class,
+        final NoModelException exception = assertThrows(
+                NoModelException.class,
                 new Executable() {
                     @Override
                     public void execute() throws Throwable {

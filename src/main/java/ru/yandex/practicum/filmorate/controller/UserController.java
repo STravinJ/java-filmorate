@@ -1,38 +1,39 @@
 package ru.yandex.practicum.filmorate.controller;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.filmorate.exception.NoModelException;
+import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
-import ru.yandex.practicum.filmorate.validation.Validator;
+import ru.yandex.practicum.filmorate.service.UserService;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/users")
-@Slf4j
 public class UserController {
 
-    private final Map<Integer, User> users = new HashMap<>();
-    private Integer idUser = 0;
+    private final UserService userService;
 
     @GetMapping
-    public Collection<User> findAll() {
+    public Collection<User> getAll() {
 
-        log.info("Получение всех пользователей.");
-        return users.values();
+        return userService.getAll();
 
+    }
+
+    @GetMapping("/{id}")
+    public User getById(@PathVariable long id) {
+        return userService.getById(id);
     }
 
     @PostMapping
     public User create(@RequestBody User user) {
 
-        Validator.userValidation(user, users);
-
-        user.setId(++idUser);
-        users.put(user.getId(), user);
-        log.info("Добавление пользователя: {}", user);
+        userService.add(user);
         return user;
 
     }
@@ -40,13 +41,58 @@ public class UserController {
     @PutMapping
     public User put(@RequestBody User user) {
 
-        Validator.userValidation(user, users);
-
-        users.remove(user.getId());
-        users.put(user.getId(), user);
-        log.info("Обновленние пользователя: {}", user);
+        userService.modifyUser(user);
         return user;
 
+    }
+
+    @PutMapping("/{id}/friends/{friendId}")
+    public void addFriend(@PathVariable("id") long id,
+                          @PathVariable("friendId") long friendId) {
+
+        userService.addFriend(id, friendId);
+
+    }
+
+    @DeleteMapping("/{id}/friends/{friendId}")
+    public void deleteFriend(@PathVariable("id") long id,
+                             @PathVariable("friendId") long friendId) {
+
+        userService.deleteFriend(id, friendId);
+
+    }
+
+    @GetMapping("/{id}/friends")
+    public Collection<User> getFriends(@PathVariable("id") long id) {
+
+        return userService.getFriends(id);
+
+    }
+
+    @GetMapping("/{id}/friends/common/{otherId}")
+    public Collection<User> getCommonFriends(@PathVariable("id") long id,
+                                             @PathVariable("otherId") long otherId) {
+
+        return userService.getCommonFriends(id, otherId);
+
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, String> handleIllegalArgument(final ValidationException e) {
+        return Map.of(
+                "error", "Ошибка валидации.",
+                "errorMessage", e.getMessage()
+        );
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Map<String, String> handleModel(final NoModelException e) {
+        return Map.of(
+                "error", "Объект не найден.",
+                "errorMessage", e.getMessage()
+        );
     }
 
 }
