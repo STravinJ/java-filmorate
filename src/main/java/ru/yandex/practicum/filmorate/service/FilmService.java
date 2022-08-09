@@ -14,7 +14,6 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@RestControllerAdvice
 public class FilmService {
 
     private final FilmStorage filmStorage;

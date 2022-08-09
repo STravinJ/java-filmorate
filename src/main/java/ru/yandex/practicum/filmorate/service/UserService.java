@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@RestControllerAdvice
 public class UserService {
 
     private final UserStorage userStorage;
