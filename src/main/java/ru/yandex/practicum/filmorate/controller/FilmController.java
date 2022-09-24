@@ -1,38 +1,39 @@
 package ru.yandex.practicum.filmorate.controller;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.filmorate.exception.DataNotFoundException;
+import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.validation.Validator;
+import ru.yandex.practicum.filmorate.service.FilmService;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/films")
-@Slf4j
 public class FilmController {
 
-    private final Map<Integer, Film> films = new HashMap<>();
-    private Integer idUser = 0;
+    private final FilmService filmService;
 
     @GetMapping
-    public Collection<Film> findAll() {
+    public Collection<Film> getAll() {
 
-        log.info("Получение всех фильмов.");
-        return films.values();
+        return filmService.getAll();
 
+    }
+
+    @GetMapping("/{id}")
+    public Film getById(@PathVariable long id) {
+        return filmService.getById(id);
     }
 
     @PostMapping
     public Film create(@RequestBody Film film) {
 
-        Validator.filmValidation(film, films);
-
-        film.setId(++idUser);
-        films.put(film.getId(), film);
-        log.info("Добавление фильма: {}", film);
+        filmService.addFilm(film);
         return film;
 
     }
@@ -40,12 +41,38 @@ public class FilmController {
     @PutMapping
     public Film put(@RequestBody Film film) {
 
-        Validator.filmValidation(film, films);
-
-        films.remove(film.getId());
-        films.put(film.getId(), film);
-        log.info("Обновленние фильма: {}", film);
+        filmService.modifyFilm(film);
         return film;
+
+    }
+
+    @PutMapping("/{id}/like/{userId}")
+    public void addLike (@PathVariable("id")  long filmId,
+                         @PathVariable("userId")  long userId) {
+
+        filmService.addLike(filmId, userId);
+
+    }
+
+    @DeleteMapping("/{id}/like/{userId}")
+    public void deleteLike (@PathVariable("id")  long filmId,
+                            @PathVariable("userId")  long userId) {
+
+        filmService.deleteLike(filmId, userId);
+
+    }
+
+    @GetMapping("/popular")
+    public Collection<Film> popularFilms (@RequestParam(required = false) Integer count) {
+
+        if (count == null) {
+            count = 10;
+        }
+        if (count <= 0) {
+            throw new ValidationException("Параметр count имеет отрицательное значение.");
+        }
+
+        return filmService.getPopularFilms(count);
 
     }
 

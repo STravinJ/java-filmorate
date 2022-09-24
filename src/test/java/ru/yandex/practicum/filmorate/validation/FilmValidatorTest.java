@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.validation;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import ru.yandex.practicum.filmorate.exception.DataNotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 
@@ -13,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class FilmValidatorTest {
 
-    Map<Integer, Film> films = new HashMap<>();
+    Map<Long, Film> films = new HashMap<>();
 
     @Test
     public void userBadNameTest() throws Exception {
@@ -121,11 +122,11 @@ public class FilmValidatorTest {
                 .description("decription1")
                 .duration(100)
                 .releaseDate(LocalDate.parse("1895-12-29"))
-                .id(1)
+                .id(1L)
                 .build();
 
-        final ValidationException exception = assertThrows(
-                ValidationException.class,
+        final DataNotFoundException exception = assertThrows(
+                DataNotFoundException.class,
                 new Executable() {
                     @Override
                     public void execute() throws Throwable {
