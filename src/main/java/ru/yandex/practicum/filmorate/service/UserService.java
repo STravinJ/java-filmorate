@@ -1,10 +1,12 @@
 package ru.yandex.practicum.filmorate.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ru.yandex.practicum.filmorate.exception.DataNotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
+import ru.yandex.practicum.filmorate.validation.Validator;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -13,23 +15,35 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService {
 
+    @Qualifier("UserDbStorage")
     private final UserStorage userStorage;
 
-    public void add(User user) {
+    public User add(User user) {
 
+        Validator.userValidation(user);
         userStorage.add(user);
+        return this.getById(user.getId());
 
     }
 
     public void remove(Long userId) {
 
+        Validator.storageValidation(userId, userStorage);
         userStorage.remove(userId);
 
     }
 
     public User getById(Long userId) {
 
-        return userStorage.getById(userId);
+        Validator.idValidation(userId);
+
+        User user = userStorage.getById(userId);
+        if (user == null) {
+            String errorMsg = String.format("Отсутствует пользователь с id=%s", userId);
+            throw new DataNotFoundException(errorMsg);
+        }
+
+        return user;
 
     }
 
@@ -38,41 +52,58 @@ public class UserService {
         return userStorage.getAll();
     }
 
-    public void modifyUser(User user) {
+    public User modifyUser(User user) {
 
-        userStorage.modifyUser(user);
+        Validator.userValidation(user);
+        Validator.storageValidation(user, userStorage);
+
+        userStorage.modify(user);
+        return this.getById(user.getId());
 
     }
 
     public void addFriend(Long userId, Long friendId) {
 
+        Validator.storageValidation(userId, userStorage);
+        Validator.storageValidation(friendId, userStorage);
+
         User user = userStorage.getById(userId);
         User friend = userStorage.getById(friendId);
 
         user.addFriendOfUser(friendId);
-        friend.addFriendOfUser(userId);
+
+        if (userStorage.getFriends(friendId, userId, false)) {
+            userStorage.modifyFriend(friendId, userId, true, friendId, userId);
+        } else if (!userStorage.getFriends(userId, friendId, null)) {
+            userStorage.addFriend(userId, friendId);
+        }
 
     }
 
     public void deleteFriend(Long userId, Long friendId) {
 
+        Validator.storageValidation(userId, userStorage);
+        Validator.storageValidation(friendId, userStorage);
+
         User user = userStorage.getById(userId);
-        User friend = userStorage.getById(friendId);
 
         user.deleteFriendOfUser(friendId);
-        friend.deleteFriendOfUser(userId);
+
+        if (userStorage.getFriends(userId, friendId, false)) {
+            userStorage.removeFriend(userId, friendId);
+        } else if (userStorage.getFriends(userId, friendId, true)) {
+            userStorage.modifyFriend(friendId, userId, false, userId, friendId);
+        } else if (userStorage.getFriends(friendId, userId, true)) {
+            userStorage.modifyFriend(friendId, userId, false, friendId, userId);
+        }
 
     }
 
     public List<User> getFriends(Long userId) {
 
-        List<User> friends = new ArrayList<>();
+        Validator.storageValidation(userId, userStorage);
 
-        User user = userStorage.getById(userId);
-
-        user.getFriends().forEach((e) -> { friends.add(userStorage.getById(e)); });
-
-        return friends;
+        return userStorage.getFriends(userId);
 
     }
 

@@ -34,7 +34,7 @@ public class UserValidatorTest {
                     @Override
                     public void execute() throws Throwable {
 
-                        validator.userValidation(user, users);
+                        validator.userValidation(user);
 
                     }
                 }
@@ -58,7 +58,7 @@ public class UserValidatorTest {
                     @Override
                     public void execute() throws Throwable {
 
-                        validator.userValidation(user, users);
+                        validator.userValidation(user);
 
                     }
                 }
@@ -82,7 +82,7 @@ public class UserValidatorTest {
                     @Override
                     public void execute() throws Throwable {
 
-                        validator.userValidation(user, users);
+                        validator.userValidation(user);
 
                     }
                 }
@@ -100,7 +100,7 @@ public class UserValidatorTest {
                 .birthday(LocalDate.parse("1895-12-28"))
                 .build();
 
-        validator.userValidation(user, users);
+        validator.userValidation(user);
 
         assertEquals(user.getName(), user.getLogin(), "Имя не обновилось");
 
@@ -122,7 +122,7 @@ public class UserValidatorTest {
                     @Override
                     public void execute() throws Throwable {
 
-                        validator.userValidation(user, users);
+                        validator.userValidation(user);
 
                     }
                 }
@@ -138,7 +138,7 @@ public class UserValidatorTest {
                 .login("")
                 .email("test@test.ru")
                 .birthday(LocalDate.parse("1895-12-28"))
-                .id(1L)
+                .id(-1L)
                 .build();
 
         final DataNotFoundException exception = assertThrows(
@@ -147,7 +147,7 @@ public class UserValidatorTest {
                     @Override
                     public void execute() throws Throwable {
 
-                        validator.userValidation(user, users);
+                        validator.idValidation(user.getId());
 
                     }
                 }

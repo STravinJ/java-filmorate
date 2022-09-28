@@ -27,4 +27,11 @@ public class ErrorHandler {
         return new ErrorResponse(e.getMessage(), "Ошибка валидации.");
     }
 
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse handleThrowable(Throwable e) {
+        e.printStackTrace();
+        return new ErrorResponse(e.getMessage(),"Ошибка валидации.");
+    }
+
 }

@@ -32,7 +32,7 @@ public class FilmValidatorTest {
                     @Override
                     public void execute() throws Throwable {
 
-                        Validator.filmValidation(film, films);
+                        Validator.filmValidation(film);
 
                     }
                 }
@@ -58,7 +58,7 @@ public class FilmValidatorTest {
                     @Override
                     public void execute() throws Throwable {
 
-                        Validator.filmValidation(film, films);
+                        Validator.filmValidation(film);
 
                     }
                 }
@@ -82,7 +82,7 @@ public class FilmValidatorTest {
                     @Override
                     public void execute() throws Throwable {
 
-                        Validator.filmValidation(film, films);
+                        Validator.filmValidation(film);
 
                     }
                 }
@@ -106,7 +106,7 @@ public class FilmValidatorTest {
                     @Override
                     public void execute() throws Throwable {
 
-                        Validator.filmValidation(film, films);
+                        Validator.filmValidation(film);
 
                     }
                 }
@@ -122,7 +122,7 @@ public class FilmValidatorTest {
                 .description("decription1")
                 .duration(100)
                 .releaseDate(LocalDate.parse("1895-12-29"))
-                .id(1L)
+                .id(-1L)
                 .build();
 
         final DataNotFoundException exception = assertThrows(
@@ -131,7 +131,7 @@ public class FilmValidatorTest {
                     @Override
                     public void execute() throws Throwable {
 
-                        Validator.filmValidation(film, films);
+                        Validator.idValidation(film.getId());
 
                     }
                 }
