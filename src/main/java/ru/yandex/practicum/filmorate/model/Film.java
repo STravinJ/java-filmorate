@@ -6,9 +6,11 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+
 @Data
-@Builder
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class Film extends Model {
 
     private Long id;

@@ -29,18 +29,14 @@ class FilmDbStorageTest {
     private final GenreStorage genreStorage;
     private Film createFilm1() {
 
-        Mpa mpa = Mpa.builder()
-                .id(1L)
-                .name("G")
-                .build();
+        Mpa mpa = new Mpa(1l, "G");
 
-        Film film = Film.builder()
-                .name("film1")
-                .description("decription1")
-                .duration(100)
-                .releaseDate(LocalDate.parse("1895-12-29"))
-                .mpa(mpa)
-                .build();
+        Film film = new Film();
+        film.setName("film1");
+        film.setDescription("decription1");
+        film.setDuration(100);
+        film.setReleaseDate(LocalDate.parse("1895-12-29"));
+        film.setMpa(mpa);
 
         film.setGenres(new HashSet<>());
 
@@ -49,18 +45,14 @@ class FilmDbStorageTest {
 
     private Film createFilm2() {
 
-        Mpa mpa = Mpa.builder()
-                .id(2L)
-                .name("PG")
-                .build();
+        Mpa mpa = new Mpa(2L, "PG");
 
-        Film film = Film.builder()
-                .name("film2")
-                .description("decription2")
-                .duration(100)
-                .releaseDate(LocalDate.parse("1895-12-28"))
-                .mpa(mpa)
-                .build();
+        Film film = new Film();
+        film.setName("film2");
+        film.setDescription("decription2");
+        film.setDuration(100);
+        film.setReleaseDate(LocalDate.parse("1895-12-22"));
+        film.setMpa(mpa);
 
         film.setGenres(new HashSet<>());
 

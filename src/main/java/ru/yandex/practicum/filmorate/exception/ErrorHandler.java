@@ -30,7 +30,7 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleThrowable(Throwable e) {
-        e.printStackTrace();
+        log.info("500 {}", e.getMessage());
         return new ErrorResponse(e.getMessage(),"Ошибка валидации.");
     }
 

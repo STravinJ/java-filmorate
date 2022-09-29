@@ -25,24 +25,22 @@ class UserDbStorageTest {
 
     private User createUser1() {
 
-        User user = User.builder()
-                .name("user1")
-                .login("user1")
-                .email("testtest.ru")
-                .birthday(LocalDate.parse("1895-12-28"))
-                .build();
+        User user = new User();
+        user.setName("user1");
+        user.setLogin("user1");
+        user.setEmail("testtest.ru");
+        user.setBirthday(LocalDate.parse("1895-12-28"));
 
         return user;
     }
 
     private User createUser2() {
 
-        User user = User.builder()
-                .name("user2")
-                .login("user2")
-                .email("testtest2.ru")
-                .birthday(LocalDate.parse("1895-12-29"))
-                .build();
+        User user = new User();
+        user.setName("user2");
+        user.setLogin("user2");
+        user.setEmail("testtest2.ru");
+        user.setBirthday(LocalDate.parse("1895-12-28"));
 
         return user;
 

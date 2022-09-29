@@ -105,7 +105,7 @@ public class FilmService {
         Collection<Film> films = this.getAll();
 
         films.stream()
-                .sorted(new filmLikesCompare())
+                .sorted(new FilmLikesCompare())
                 .forEach(film -> {
                     if (popularFilms.size() == count) {
                         return;
@@ -117,7 +117,7 @@ public class FilmService {
 
     }
 
-    class filmLikesCompare implements Comparator<Film> {
+    class FilmLikesCompare implements Comparator<Film> {
         @Override
         public int compare(Film o2, Film o1) {
             if (o1.getUsersLikes() == null

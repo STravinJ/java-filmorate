@@ -1,11 +1,10 @@
 package ru.yandex.practicum.filmorate.model;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
-@Builder
 public class Mpa extends Model {
 
     private Long id;
