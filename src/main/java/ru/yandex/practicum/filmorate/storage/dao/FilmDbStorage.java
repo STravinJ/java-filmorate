@@ -114,19 +114,18 @@ public class FilmDbStorage implements FilmStorage {
 
     private Film mapToFilm(ResultSet resultSet, int rowNum) throws SQLException {
 
-        Mpa mpa = Mpa.builder()
-                .id(resultSet.getLong("MPA_ID"))
-                .name(resultSet.getString("MPA_NAME"))
-                .build();
+        Mpa mpa = new Mpa(resultSet.getLong("MPA_ID"),
+                            resultSet.getString("MPA_NAME"));
 
-        return Film.builder()
-                .id(resultSet.getLong("ID"))
-                .name(resultSet.getString("NAME"))
-                .description(resultSet.getString("DESCRIPTION"))
-                .duration(resultSet.getInt("DURATION"))
-                .releaseDate(resultSet.getDate("RELEASE_DATE").toLocalDate())
-                .mpa(mpa)
-                .build();
+        Film film = new Film();
+        film.setId(resultSet.getLong("ID"));
+        film.setName(resultSet.getString("NAME"));
+        film.setDescription(resultSet.getString("DESCRIPTION"));
+        film.setDuration(resultSet.getInt("DURATION"));
+        film.setReleaseDate(resultSet.getDate("RELEASE_DATE").toLocalDate());
+        film.setMpa(mpa);
+
+        return film;
 
     }
 

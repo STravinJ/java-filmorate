@@ -155,13 +155,14 @@ public class UserDbStorage implements UserStorage {
 
     private User mapToUser(ResultSet resultSet, int rowNum) throws SQLException {
 
-        return User.builder()
-                .id(resultSet.getLong("ID"))
-                .name(resultSet.getString("NAME"))
-                .login(resultSet.getString("LOGIN"))
-                .email(resultSet.getString("EMAIL"))
-                .birthday(resultSet.getDate("BIRTHDAY").toLocalDate())
-                .build();
+        User user = new User();
+        user.setId(resultSet.getLong("ID"));
+        user.setName(resultSet.getString("NAME"));
+        user.setLogin(resultSet.getString("LOGIN"));
+        user.setEmail(resultSet.getString("EMAIL"));
+        user.setBirthday(resultSet.getDate("BIRTHDAY").toLocalDate());
+
+        return user;
 
     }
 

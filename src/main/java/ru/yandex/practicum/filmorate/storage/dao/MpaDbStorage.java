@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
+import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.model.Mpa;
 import ru.yandex.practicum.filmorate.storage.MpaStorage;
 
@@ -73,10 +74,8 @@ public class MpaDbStorage implements MpaStorage {
 
     private Mpa mapToMpa(ResultSet resultSet, int rowNum) throws SQLException {
 
-        return Mpa.builder()
-                .id(resultSet.getLong("ID"))
-                .name(resultSet.getString("NAME"))
-                .build();
+        return new Mpa(resultSet.getLong("ID"),
+                resultSet.getString("NAME"));
 
     }
 
