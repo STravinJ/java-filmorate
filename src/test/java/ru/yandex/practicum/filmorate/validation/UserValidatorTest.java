@@ -22,7 +22,7 @@ public class UserValidatorTest {
         User user = new User();
         user.setName("user1");
         user.setLogin("user1");
-        user.setEmail("testtest.ru");
+        user.setEmail("test@test.ru");
         user.setBirthday(LocalDate.parse("1895-12-28"));
 
         return user;
