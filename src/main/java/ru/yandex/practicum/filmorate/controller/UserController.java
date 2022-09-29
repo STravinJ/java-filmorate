@@ -1,15 +1,12 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exception.DataNotFoundException;
-import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
 
+import javax.validation.Valid;
 import java.util.Collection;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,18 +28,16 @@ public class UserController {
     }
 
     @PostMapping
-    public User create(@RequestBody User user) {
+    public User create(@Valid @RequestBody User user) {
 
-        userService.add(user);
-        return user;
+        return userService.add(user);
 
     }
 
     @PutMapping
-    public User put(@RequestBody User user) {
+    public User put(@Valid @RequestBody User user) {
 
-        userService.modifyUser(user);
-        return user;
+        return userService.modifyUser(user);
 
     }
 

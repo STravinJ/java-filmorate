@@ -1,22 +1,26 @@
 package ru.yandex.practicum.filmorate.model;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+
 @Data
-@Builder
-public class Film {
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+public class Film extends Model {
 
     private Long id;
     private String name;
     private String description;
     private LocalDate releaseDate;
     private double duration;
+    private Mpa mpa;
     private Set<Long> usersLikes;
+    private Set<Genre> genres;
 
     public void addLike(Long userId) {
 
@@ -28,8 +32,24 @@ public class Film {
 
     }
 
+    public Set<Long> getLikes() {
+
+        if (usersLikes == null) {
+            usersLikes = new HashSet<>();
+        }
+
+        return new HashSet<>(usersLikes);
+
+    }
+
     public void deleteLike(Long userId) {
+
+        if (usersLikes == null) {
+            usersLikes = new HashSet<>();
+        }
+
         usersLikes.remove(userId);
+
     }
 
 }

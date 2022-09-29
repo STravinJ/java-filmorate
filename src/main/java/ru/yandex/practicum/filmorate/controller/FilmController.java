@@ -1,15 +1,12 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exception.DataNotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.FilmService;
 
 import java.util.Collection;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,37 +30,35 @@ public class FilmController {
     @PostMapping
     public Film create(@RequestBody Film film) {
 
-        filmService.addFilm(film);
-        return film;
+        return filmService.add(film);
 
     }
 
     @PutMapping
     public Film put(@RequestBody Film film) {
 
-        filmService.modifyFilm(film);
-        return film;
+        return filmService.modify(film);
 
     }
 
     @PutMapping("/{id}/like/{userId}")
-    public void addLike (@PathVariable("id")  long filmId,
-                         @PathVariable("userId")  long userId) {
+    public void addLike(@PathVariable("id") long filmId,
+                        @PathVariable("userId") long userId) {
 
         filmService.addLike(filmId, userId);
 
     }
 
     @DeleteMapping("/{id}/like/{userId}")
-    public void deleteLike (@PathVariable("id")  long filmId,
-                            @PathVariable("userId")  long userId) {
+    public void deleteLike(@PathVariable("id") long filmId,
+                           @PathVariable("userId") long userId) {
 
         filmService.deleteLike(filmId, userId);
 
     }
 
     @GetMapping("/popular")
-    public Collection<Film> popularFilms (@RequestParam(required = false) Integer count) {
+    public Collection<Film> popularFilms(@RequestParam(required = false) Integer count) {
 
         if (count == null) {
             count = 10;

@@ -1,24 +1,19 @@
 package ru.yandex.practicum.filmorate.storage;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.yandex.practicum.filmorate.model.User;
 
-import java.util.Collection;
 import java.util.List;
 
-public interface UserStorage {
+public interface UserStorage extends ModelStorage<User> {
 
-     void add(User user);
+    void addFriend(Long userId, Long friendId);
 
-     void remove(Long userId);
+    void modifyFriend(Long userId, Long friendId, boolean confirmed, Long userIdBefore, Long friendIdBefore);
 
-     Collection<User> getAll();
+    void removeFriend(Long userId, Long friendId);
 
-     void modifyUser(User user);
+    boolean getFriends(Long userId, Long friendId, Boolean isConfirmed);
 
-     User getById(Long userId);
-
+    List<User> getFriends(Long userId);
 
 }
